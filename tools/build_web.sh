@@ -35,6 +35,8 @@ fi
 
 SUFFIX=""; ARGS=()
 [ "${NODE:-0}" = "1" ] && { SUFFIX="-node"; ARGS=(-DMC3_WEB_NODE=ON); }
+# MC3_RUST_RUNTIME=ON: the Rust runtime (crates/client/mc3-runtime) in place of the C it replaces; OFF back.
+[ -n "${MC3_RUST_RUNTIME:-}" ] && ARGS+=("-DMC3_RUST_RUNTIME=$MC3_RUST_RUNTIME")
 BUILD="${BUILD_DIR:-$MC3_WORK/build-web$SUFFIX}"
 
 # The build stamp in the boot banner (src/main.c): commit (+dirty: uncommitted

@@ -2,7 +2,7 @@
 # repositories later: crates/server/* (what runs on the server), crates/client/* (what runs in the browser), and
 # crates/shared/* (what both speak: wire formats, no I/O). server never depends on client, nor client on server.
 [workspace]
-members = ["crates/shared/*", "crates/server/*"]
+members = ["crates/shared/*", "crates/server/*", "crates/client/*"]
 resolver = "3"
 
 [workspace.package]

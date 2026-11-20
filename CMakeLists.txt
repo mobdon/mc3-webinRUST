@@ -99,7 +99,34 @@ set(SDL2_FOUND TRUE)
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}/cmake")
 endif()
 
+# Rust runtime (ADR 0013): crates/client/mc3-runtime, a static library holding the hand-written modules moved
+# to Rust under their C names; each C file it replaces is left out. OFF = the C build as before (A/B).
+# Browser: tools/build_rust_web.sh (nightly + rust-src, wasm threads); native: stable cargo.
+# Replaces today: xboxrecomp/src/kernel/kernel_crypto.c.
+option(MC3_RUST_RUNTIME "Link crates/client/mc3-runtime (Rust) in place of the C modules it replaces" OFF)
+set(XBOXRECOMP_RUST_CRYPTO ${MC3_RUST_RUNTIME} CACHE BOOL "" FORCE)
+
 add_subdirectory(${XBOXRECOMP_DIR} ${CMAKE_BINARY_DIR}/xboxrecomp)
+
+if(MC3_RUST_RUNTIME)
+    set(_rt_dir "${CMAKE_BINARY_DIR}/rust")
+    if(EMSCRIPTEN)
+        set(_rt_lib "${_rt_dir}/wasm32-unknown-emscripten/release/libmc3_runtime.a")
+        set(_rt_cmd ${CMAKE_COMMAND} -E env "TARGET_DIR=${_rt_dir}" bash tools/build_rust_web.sh)
+    else()
+        set(_rt_lib "${_rt_dir}/release/libmc3_runtime.a")
+        set(_rt_cmd cargo build -q -p mc3-runtime --release --target-dir "${_rt_dir}")
+    endif()
+    file(GLOB_RECURSE _rt_src CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/crates/client/mc3-runtime/*")
+    add_custom_command(OUTPUT "${_rt_lib}" COMMAND ${_rt_cmd}
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" DEPENDS ${_rt_src} VERBATIM
+        COMMENT "Rust runtime (crates/client/mc3-runtime)")
+    add_custom_target(mc3_runtime_build DEPENDS "${_rt_lib}")
+    add_library(mc3_runtime STATIC IMPORTED)
+    set_target_properties(mc3_runtime PROPERTIES IMPORTED_LOCATION "${_rt_lib}")
+    add_dependencies(xbox_kernel mc3_runtime_build)
+    target_link_libraries(xbox_kernel PUBLIC mc3_runtime)
+endif()
 
 file(GLOB MC3_GEN_SOURCES CONFIGURE_DEPENDS "${MC3_GEN_DIR}/*.c")
 

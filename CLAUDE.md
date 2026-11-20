@@ -83,6 +83,13 @@ with xboxrecomp; modelled on nfsu2-sw).
   I/O), `crates/server/*`, `crates/client/*`; server never depends on client
   nor the reverse, so the later client/server repo split is a folder move. A
   C module is replaced behind its existing C names, one at a time.
+  Phase 1 (2026-11-20, untested in game): `crates/client/mc3-runtime` is a staticlib the CMake
+  build links with `-DMC3_RUST_RUNTIME=ON` (`MC3_RUST_RUNTIME=ON make web`; default OFF = the C as
+  before) and each C file it replaces is left out (toolkit switch `XBOXRECOMP_RUST_CRYPTO`). Browser:
+  tools/build_rust_web.sh, nightly + rust-src (`-Zbuild-std`, `+atomics,+bulk-memory`: std must share
+  the pthreads' memory); checked with emsdk 7.0.0. Replaces kernel_crypto.c (XcHMAC signs saves: no
+  format change, tools/test_rust_crypto.sh checks the Rust against the C byte for byte, natively and
+  in an emcc -pthread build on Node). Next: kernel_path.c, apu_web.c, net/roam (mc3-proto).
 - Record decisions in `docs/decisions/` (short ADRs). Open work, bugs and
   decisions still to evaluate live in `TODO.md` (gitignored, personal);
   this file keeps facts and rules.

@@ -1,0 +1,13 @@
+[package]
+name = "mc3-runtime"
+description = "Hand-written runtime modules in Rust behind their C names (ADR 0013), linked into the CMake build as a static library"
+version.workspace = true
+edition.workspace = true
+license-file = "../../../LICENSE"   # AGPL-3.0 + the 7(b) term: a new client crate takes the repo's licence (ADR 0013, NOTICE.md)
+publish.workspace = true
+
+[lib]
+# staticlib for the CMake/Emscripten link, rlib for cargo test.
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
