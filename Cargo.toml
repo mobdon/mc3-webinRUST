@@ -1,0 +1,26 @@
+# The Rust workspace (docs/decisions/0013-rust-workspace.md). Three groups, kept apart so they can become their own
+# repositories later: crates/server/* (what runs on the server), crates/client/* (what runs in the browser), and
+# crates/shared/* (what both speak: wire formats, no I/O). server never depends on client, nor client on server.
+[workspace]
+members = ["crates/shared/*", "crates/server/*"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+publish = false
+
+[workspace.dependencies]
+mc3-proto = { path = "crates/shared/proto" }
+mc3-ws = { path = "crates/server/ws" }
+mc3-lan = { path = "crates/server/lan" }
+mc3-roam = { path = "crates/server/roam" }
+tokio = { version = "1", features = ["full"] }
+bytes = "1"
+sha1 = "0.10"
+base64 = "0.22"
+serde_json = "1"
+
+[profile.release]
+opt-level = 3

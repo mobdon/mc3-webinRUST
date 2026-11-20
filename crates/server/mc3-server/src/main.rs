@@ -1,5 +1,5 @@
 //! mc3-web's server: the start page, the browser build and the disc folders (what tools/web_serve.py serves, at the
-//! same URLs), and the virtual LAN switch for System Link at /lan (crates/lan).
+//! same URLs), and the virtual LAN switch for System Link at /lan (crates/server/lan).
 //!
 //!     mc3-server --web web --build work-remix/build-web --disc game-remix-usa [--port 3000] [--bind 127.0.0.1]
 //!
@@ -11,7 +11,7 @@
 //! cross-origin isolated page) and takes single HTTP Ranges (the game reads the disc in 1 MB ranges).  It binds to
 //! localhost unless --bind says otherwise: the disc is yours, not the network's.  --allow-origin (repeats) lets only
 //! pages of those origins (scheme://host[:port]) join /lan; without it any page may.  --roam on|off (default on): the free-roam hub
-//! at 10.77.0.253 (crates/roam), which links each free-roam player with its nearest.
+//! at 10.77.0.253 (crates/server/roam), which links each free-roam player with its nearest.
 
 mod http;
 

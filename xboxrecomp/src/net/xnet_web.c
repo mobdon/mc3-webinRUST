@@ -1,6 +1,6 @@
 /* xnet_web.c -- the XNet HLE's browser transport (Emscripten): System Link
  * over the server's virtual LAN switch (WebSocket /lan; mc3-web
- * web/server/crates/lan, after nfsu2-web's, MIT, th0mk).
+ * crates/server/lan, after nfsu2-web's, MIT, th0mk).
  *
  * The page owns the WebSocket (web/net.js, main thread); the guest's
  * datagrams cross between it and this file through a mailbox in the shared

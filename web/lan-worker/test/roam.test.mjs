@@ -1,4 +1,4 @@
-// The free-roam hub (src/roam.js): the tests of web/server/crates/roam/src/lib.rs, ported. node --test test/
+// The free-roam hub (src/roam.js): the tests of crates/server/roam/src/lib.rs, ported. node --test test/
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Hub, crc32, decode, encodePeers, ROAM_PORT, MSG_BYE, MSG_PEERS, MSG_FAR, ST_ROAM, ST_MENUS, ST_LOADING } from '../src/roam.js';

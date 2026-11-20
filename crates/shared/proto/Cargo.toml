@@ -1,0 +1,9 @@
+[package]
+name = "mc3-proto"
+description = "Wire formats the client and the server both speak (free-roam MC3R records, ...): no I/O, no platform code"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]

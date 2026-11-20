@@ -78,6 +78,11 @@ with xboxrecomp; modelled on nfsu2-sw).
   it rewrites `gen/recomp_types.h`. Then rebuild all generated code.
 - Every seed added to `config/<game>/seed_functions.json` gets a note, and is
   reviewed: a seed inside a function splits it.
+- Rust workspace (ADR 0013, 2026-11-20): hand-written code moves to Rust, the
+  lifter's generated C stays C. Crates in `crates/shared/*` (wire formats, no
+  I/O), `crates/server/*`, `crates/client/*`; server never depends on client
+  nor the reverse, so the later client/server repo split is a folder move. A
+  C module is replaced behind its existing C names, one at a time.
 - Record decisions in `docs/decisions/` (short ADRs). Open work, bugs and
   decisions still to evaluate live in `TODO.md` (gitignored, personal);
   this file keeps facts and rules.
@@ -177,7 +182,7 @@ wsl -d Ubuntu-24.04 -u root -- bash -lc '. /opt/emsdk/emsdk_env.sh && cd /mnt/e/
 | browser build | `make web GAME=remix` | work-remix/build-web: mcdub3remix.js + .wasm (~41 MB); lifted chunks ~4-6 min from clean |
 | node build | `make web-node GAME=remix` | NODERAWFS, headless boot test |
 | serve (dev) | `make web-serve GAME=remix` | tools/web_serve.py on :3000 |
-| serve (server) | `cd web/server && cargo build --release && target/release/mc3-server --web .. --build ../../work-remix/build-web --disc ../../game-remix-usa --port 3000` | Rust; the /lan switch |
+| serve (server) | `cargo build --release -p mc3-server && target/release/mc3-server --web web --build work-remix/build-web --disc game-remix-usa --port 3000` (repo root) | Rust; the /lan switch |
 
 The Remix USA disc lifts to the same C as the European one (the lifter
 takes the base's condition at an edition-variant jcc; test_edition_variants.py).
@@ -189,7 +194,7 @@ generated files when the lift inputs did not change.
 - `web/`: start page (index.html: Play, Settings -> the game's env,
   Controls, Saves, Online, About), pre-js files (pre.js, audio.js,
   disc_cache.js, lan.js, net.js), the WASMFS JS backend wasmfs_fetch.js.
-- `web/server/`: Rust server (page, build, discs with Range + COOP/COEP,
+- `crates/server/`: Rust server (page, build, discs with Range + COOP/COEP,
   the /lan WebSocket switch). Crates adapted from nfsu2-web's server-rs.
 - `src/web_fs.c`: mounts the disc at /game (fetch backend) and saves at
   /opfs/save (MC3_SAVE_DIR).
@@ -612,7 +617,7 @@ generated files when the lift inputs did not change.
   roam (MIT, th0mk) in xboxrecomp/src/net/roam (API roam_api.h: roam_start,
   roam_set_local, roam_peers, roam_set_cfg/roam_peer_cfg; wire magic MC3R,
   52-byte state, 20 Hz, interpolation) over the page's /lan link (own SAB
-  mailbox), and the hub in web/server/crates/roam (mc3-server --roam, on by
+  mailbox), and the hub in crates/server/roam (mc3-server --roam, on by
   default; vip 10.77.0.253:47210; sends each player its K nearest, K = 7,
   MC3_ROAM_K). It is a mesh shaped by the hub: snapshots go player to
   player through the switch; the hub only picks the links. Hybrid P2P
@@ -648,7 +653,7 @@ generated files when the lift inputs did not change.
   (was 1 s for all: a whole city came back in one second). Old pages keep
   sending frames one by one; a new page on an old Worker sees no hello and
   does the same. Bundles out (2026-11-13, untested live, not deployed): a
-  page's sockets ask with bundle=1 in the URL (old Workers and web/server
+  page's sockets ask with bundle=1 in the URL (old Workers and crates/server
   ignore it; attachment `bundle`); the city object and the Switch then hold
   free roam's frames to it (relays, hub lists; never System Link's) up to
   OUT_MS 25 ms and send one bundle (switch.js Outbox, OUT_MAX 16 KB; a lone
@@ -758,7 +763,7 @@ generated files when the lift inputs did not change.
   wins, "Latest\nNext" UTF-8; refilled on each call). Players panel: while the
   full map draws, roam_bigmap_box (seq, city) tells web/pre.js, which
   lists the Free Roam players from the switch's players push on the
-  picture's right edge (same city first; none on web/server, which has no
+  picture's right edge (same city first; none on crates/server, which has no
   push). Folded (2026-11-15, untested in a browser): one chip (people + count, a flag while our race
   has standings) on the right edge; a tap opens the players, progress and race panels under it (localStorage
   mc3.mapPanels). Open: names on the full map.

@@ -1,4 +1,4 @@
-// The free-roam hub: a faithful port of web/server/crates/roam/src/lib.rs (itself after nfsu2-web's roam hub, MIT
+// The free-roam hub: a faithful port of crates/server/roam/src/lib.rs (itself after nfsu2-web's roam hub, MIT
 // License, Copyright (c) 2026 th0mk).  Same wire (xboxrecomp/src/net/roam/roam_core.h), same link pick; see the Rust
 // file for the rules.  The hub stands at 10.77.0.253 port 47210 on the switch (src/index.js), which feeds it the
 // datagrams sent there (frame), the browsers that left (leave), and sends its PEERS lists out (tick).

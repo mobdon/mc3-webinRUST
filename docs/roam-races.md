@@ -170,7 +170,7 @@ a load: `roam_set_pose` (SetMatrix `sub_002A35A0` + SetVel `sub_003432B0`) follo
   host_selected_next_race / restart / frontend).
 - **Rooms vs free roam:** the /lan switch routes System Link datagrams only inside a
   room. Free roam's port routes whatever the room
-  (web/server/crates/lan/src/lib.rs:579). So a player can be in a race room and stay
+  (crates/server/lan/src/lib.rs:579). So a player can be in a race room and stay
   in the free-roam mesh. In Free Roam our code drops the session's datagrams while
   `[0x50F14C] == 0` (`fr_sl_detached`, recomp_manual.c). A race sets it to 1, so they
   flow again.

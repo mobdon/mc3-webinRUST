@@ -230,7 +230,7 @@ Module['mc3SavesSeq'] = function () {
 
 // Main menu "Online (N)": the players in Free Roam now (the switch's players push, Module.mc3Lan.players.freeRoam.total,
 // web/lan.js) into src/games/remix/recomp_manual.c's mc3_online_count_box once a second; -1 unknown (offline, or
-// web/server's switch without the push): the item reads plain "Online". The game reads it at each build of the menu.
+// crates/server's switch without the push): the item reads plain "Online". The game reads it at each build of the menu.
 // Page thread only, and the export checked first: Emscripten rewrites every HEAPU8 use into (growMemViews(), HEAPU8),
 // which read wasmMemory.buffer before the memory was set (a pool worker, 2026-11-11: "The game could not start").
 if (!ENVIRONMENT_IS_PTHREAD && typeof setInterval == 'function') setInterval(function () {
@@ -599,7 +599,7 @@ Module['mc3FlagEl'] = function (code) {
 // roam_bigmap_box (seq, our city: the roam room), and this lists the players online in Free Roam beside it, from the
 // switch's players push (Module.mc3Lan.players.list, web/lan.js: mode 'roam', city = room id): our city first, then the
 // others with their city. On the right edge of the picture, at most 20% of it wide (32:9: beside the HUD's middle
-// 16:9); hidden without a list (web/server's switch has none). Flags: ours from MC3_PLAYER_FLAG, the linked players'
+// 16:9); hidden without a list (crates/server's switch has none). Flags: ours from MC3_PLAYER_FLAG, the linked players'
 // from roam_bigmap_box (name + flag rows; the push has none, players beyond our links get none). Main thread only.
 // Folded (2026-11-15, owner: the map was cluttered): one small chip on the right edge (people icon + count, a flag
 // while our race has standings); a click / tap opens the players, progress and race panels under it and closes them

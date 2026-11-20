@@ -84,7 +84,7 @@
     function liveP(p) { return openP(p) && p.rxAt > 0 && Date.now() - p.rxAt < ROAM.deadMs; }
     // ICE servers from the switch (GET <lan as http(s)>/ice, web/lan-worker: STUN + Cloudflare TURN, credentials for
     // 6 h): asked once per session and again when older than ICE.ageMs; until then, or if it fails (no such route,
-    // web/server, offline), config.json's iceServers or public STUN. New pairs take the newest list.
+    // crates/server, offline), config.json's iceServers or public STUN. New pairs take the newest list.
     var ICE = { ageMs: 5 * 3600e3, retryMs: 600e3 }, iceAt = 0, iceTry = -Infinity, iceSaid = false;
     function iceUrl() {
       try {
@@ -393,7 +393,7 @@
       if (m.t == 'room') setMembers(m.members || []);
       else if (m.t == 'left') setMembers([]);
       else if (m.t == 'signal') onSignal(m);
-      // a switch without free-roam signalling (web/server) refuses ours as 'room' while we are in none: switch only
+      // a switch without free-roam signalling (crates/server) refuses ours as 'room' while we are in none: switch only
       else if (m.t == 'error' && m.op == 'signal' && m.code == 'room' && !rtc.members.length && !refused && Object.keys(fr.peers).length) {
         refused = true;
         say('[rtc] free roam: this server relays no free-roam signalling; every frame goes through it');

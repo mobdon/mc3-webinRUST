@@ -116,11 +116,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "mc3-proto"
+version = "0.1.0"
+
+[[package]]
 name = "mc3-roam"
 version = "0.1.0"
 dependencies = [
  "bytes",
  "mc3-lan",
+ "mc3-proto",
  "serde_json",
  "tokio",
 ]

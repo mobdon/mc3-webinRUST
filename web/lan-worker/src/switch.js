@@ -1,5 +1,5 @@
 // The Switch Durable Object: the /lan switch (System Link, race rooms, free roam) with the same wire contract as
-// web/server's (crates/lan + crates/roam): the page (web/lan.js) and the game cannot tell them apart. The Worker's
+// crates/server's (crates/lan + crates/roam): the page (web/lan.js) and the game cannot tell them apart. The Worker's
 // entry is src/index.js.
 //
 //   GET /lan[?vip=n] (WebSocket upgrade, Origin in ALLOW_ORIGINS) -> the Durable Object "Switch" (one for the server)
@@ -129,7 +129,7 @@ export function unbundle(b) {
   return out;
 }
 // Bundles out (2026-11-13): a page that takes them says so with bundle=1 in its socket's URL (web/lan.js; older Workers
-// and web/server ignore it), kept in its attachment `bundle`. Free roam's frames to it (relayed SNAPs, the hub's lists)
+// and crates/server ignore it), kept in its attachment `bundle`. Free roam's frames to it (relayed SNAPs, the hub's lists)
 // wait up to OUT_MS and go as one bundle (a lone frame as itself), at most OUT_MAX bytes: each page gets ~40 messages a
 // second instead of one per frame (60 players, ~20 relayed peers each at 20 Hz: ~400/s a page, ~24k ws.send/s in one
 // city object). Older pages get every frame alone, at once. Race (System Link) frames are never held.
@@ -686,7 +686,7 @@ export class Switch extends Lobby {
   bin(q, b) { try { q.ws.send(b); return true; } catch { return false; } }
 }
 
-/** May a page of this Origin join? No list: any. A list: only its origins, any case (web/server/src/http.rs origin_ok). */
+/** May a page of this Origin join? No list: any. A list: only its origins, any case (crates/server/mc3-server/src/http.rs origin_ok). */
 export function originOk(allow, origin) {
   return !allow.length || (!!origin && allow.some(a => a.toLowerCase() === origin.toLowerCase()));
 }

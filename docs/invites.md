@@ -22,7 +22,7 @@ friends lists, offline invites.
 ## Where it runs
 
 Invites are **Worker-only** (the switch in `web/lan-worker`, which extends the races
-Lobby). The Rust server (`web/server/crates/lan/src/lib.rs`, `control()` :441) has no
+Lobby). The Rust server (`crates/server/lan/src/lib.rs`, `control()` :441) has no
 `{"t":"players"}` push, so it has no player list to invite from. The page already
 degrades (`liveStats()`, web/index.html:1883, needs `lan.players.list`): it hides the
 invite UI when `lan.players` is missing. Rust parity is optional later: a `players`
@@ -290,7 +290,7 @@ tabs.
   `playersList` (:1892) reuse `l.players.list` for the right panel; the dialog close
   selector (:1840) and the key-capture exclusion (:1963) gain `#inv-left, #inv-right`.
 - `docs/races-protocol.md`: one pointer line (done).
-- `web/server/crates/lan/src/lib.rs`: no change (the page feature-detects).
+- `crates/server/lan/src/lib.rs`: no change (the page feature-detects).
 
 ## Open decisions
 

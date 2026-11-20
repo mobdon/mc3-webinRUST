@@ -66,7 +66,7 @@ extern "C" {
  * Web: xnet_transport_web (xnet_web.c), the default in the Emscripten
  * build: datagrams through a shared-memory mailbox to the page, which
  * carries them over a WebSocket to the server's virtual-LAN switch
- * (web/server/crates/lan, after nfsu2-web's, MIT, th0mk): kind 3 frames,
+ * (crates/server/lan, after nfsu2-web's, MIT, th0mk): kind 3 frames,
  * the page's virtual address 10.77.x.x as local_addr; broadcasts reach
  * every other player with System Link open and loop back to our own
  * sockets on that port. */

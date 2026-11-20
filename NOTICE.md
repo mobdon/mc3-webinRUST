@@ -71,12 +71,12 @@ These terms apply to Leandro Dettmer's code in this repository.
 
 - **nfsu2-web** by th0mk, MIT. Source: <https://github.com/th0mk/nfsu2-web>. The start page's layout and design follow
   it, and so does the audio ring buffer feeding the AudioWorklet (`xboxrecomp/src/apu/apu_web.c`). The server
-  (`web/server`) takes its WebSocket crate unchanged (`web/server/crates/ws`, with its licence) and its virtual LAN
-  switch's design (`web/server/crates/lan`), and System Link's mailbox follows its net mailbox
+  (`crates/server`) takes its WebSocket crate unchanged (`crates/server/ws`, with its licence) and its virtual LAN
+  switch's design (`crates/server/lan`), and System Link's mailbox follows its net mailbox
   (`xboxrecomp/src/net/xnet_web.c`, `web/net.js`). Free roam is ported from its free-roam multiplayer, without its
   NFSU2 game layer: the core's wire format, session and interpolation (`xboxrecomp/src/net/roam/roam_core.c`), its
   platform layer and browser endpoint (`roam_plat.h`, `roam_web.c`, `roam_api.c`) and its hub
-  (`web/server/crates/roam`). The touch controls and the phone page follow its touch controls and device helpers
+  (`crates/server/roam`). The touch controls and the phone page follow its touch controls and device helpers
   (`web/touch.js`, `xboxrecomp/src/input/touch_pad_web.c`: a virtual controller merged with a real one, a thumb
   stick where the thumb lands, sliding between pedals, the Wake Lock, phone detection and defaults, the device
   checks' memory and WebGPU notes). The players' country flags follow its Your flag: the flag in the roam core's
