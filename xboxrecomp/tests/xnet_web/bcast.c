@@ -1,7 +1,7 @@
 /*
  * System Link in the browser, end to end: xnet_hle.c over xnet_web.c's
  * mailbox, web/net.js, web/lan.js's WebSocket and the server's switch
- * (web/server). Each page does what MC3's System Link does: XNetStartup,
+ * (crates/server). Each page does what MC3's System Link does: XNetStartup,
  * its XNADDR, a non-blocking UDP socket on :1000 with SO_BROADCAST, a
  * broadcast to 255.255.255.255:1000 every 250 ms, and receives. It prints
  * the first datagrams from another address as
@@ -14,7 +14,7 @@
  *        xboxrecomp/src/net/xnet_web.c --pre-js web/pre.js --pre-js web/net.js \
  *        -o <dir>/bcast.js
  *   cp xboxrecomp/tests/xnet_web/index.html <dir>/
- *   web/server/target/release/mc3-server --web <dir> --web web --port 3002
+ *   target/release/mc3-server --web <dir> --web web --port 3002
  *   node xboxrecomp/tests/xnet_web/check.mjs http://127.0.0.1:3002/
  */
 #include <stdint.h>

@@ -5,7 +5,7 @@
  * its NFSU2 game layer.  The core (roam_core.h) is game-agnostic: a car is a
  * rc_state (position, velocity, orientation, controls) plus an opaque
  * extension the game defines; its look is an opaque record (MC3: the 264-byte
- * CarCfg).  The server's free-roam hub (web/server/crates/roam) links each
+ * CarCfg).  The server's free-roam hub (crates/server/roam) links each
  * player with its K nearest (default ROAM_K_DEFAULT); snapshots then go
  * player to player at 20 Hz over the virtual LAN (UDP port ROAM_PORT on the
  * player's 10.77.x.x address).
