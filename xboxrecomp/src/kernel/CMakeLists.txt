@@ -42,6 +42,12 @@ if(WIN32)
     list(APPEND KERNEL_SOURCES ../platform/win32_stacks.c)
 endif()
 
+# A consuming project that links its own build of these exports (mc3-web: crates/client/mc3-runtime, Rust)
+# drops the C file.
+if(XBOXRECOMP_RUST_CRYPTO)
+    list(REMOVE_ITEM KERNEL_SOURCES kernel_crypto.c)
+endif()
+
 add_library(xbox_kernel STATIC ${KERNEL_SOURCES})
 
 # The device-model side of the kernel: interrupt lines and the contiguous
