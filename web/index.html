@@ -859,7 +859,7 @@
     <div class="pane prose" role="tabpanel" data-pane="about" hidden>
       <p style="margin-top:12px">Midnight Club 3: DUB Edition Remix in the browser: the Xbox game's own code, statically recompiled to C with xboxrecomp and built for WebAssembly, drawn with WebGPU (WebGL 2 as a fallback). Plays on PC, phones (touch controls) and TVs, with keyboard or controller.</p>
       <p>Online: free roam with other players in the same city, and the garage with every car and part unlocked. Your online profile is kept in this browser.</p>
-      <p>You need your own copy of the game: extract your disc and serve it from your own machine with <code>tools/web_serve.py</code> or <code>web/server</code>. Nothing of the game ships with this page; saves stay in this browser.</p>
+      <p>You need your own copy of the game: extract your disc and serve it from your own machine with <code>tools/web_serve.py</code> or <code>crates/server</code>. Nothing of the game ships with this page; saves stay in this browser.</p>
       <p>Source: <a href="https://github.com/LeandroDettmer/mc3-web" target="_blank" rel="noopener noreferrer">github.com/LeandroDettmer/mc3-web</a>. Bugs and ideas: open an issue there; contributions by fork and pull request.</p>
     </div>
     <div class="pane prose" role="tabpanel" data-pane="credits" hidden>
@@ -3859,7 +3859,7 @@
     }, 50);
   }
   // --- who is online: pushed over the link when it changes (web/lan.js l.players, names included); without it
-  // (offline, or a switch without the push: web/server) the server's GET /lan/stats (counts only), every 60 s while the start page is visible (backing off to 5 min while unchanged)
+  // (offline, or a switch without the push: crates/server) the server's GET /lan/stats (counts only), every 60 s while the start page is visible (backing off to 5 min while unchanged)
   const CITIES = ['San Diego', 'Atlanta', 'Detroit', 'Tokyo'];   // free-roam room ids 0..3 (0 = the default room)
   function statsUrl() {
     try {

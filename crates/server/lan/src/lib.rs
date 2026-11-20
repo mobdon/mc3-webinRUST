@@ -2,7 +2,7 @@
 //! datagrams go from browser to browser through it.  After nfsu2-web's switch (web/server-rs/crates/lan, MIT License,
 //! Copyright (c) 2026 th0mk): its addresses, frame layout and control messages, without what only NFSU2 needs there
 //! (the Online host, bundles, compact frames, resume tokens, names and bans).  Frames to [`HUB`] go to the free-roam
-//! hub (crates/roam, [`Switch::attach_hub`]), which answers through [`Switch::inject`]; a client's {"t":"roam"} gets
+//! hub (crates/server/roam, [`Switch::attach_hub`]), which answers through [`Switch::inject`]; a client's {"t":"roam"} gets
 //! the hub's players ({"t":"roam","players":[{"name","status"}]}, [`Switch::set_roam_list`]).
 //!
 //! # Addresses
@@ -84,7 +84,7 @@ pub const HDR: usize = 16;
 pub const MAX_DATA: usize = 1472;
 pub const MAX_FRAME: usize = HDR + MAX_DATA;
 pub const NAME_MAX: usize = 32;
-/// free roam's UDP port (crates/roam): its frames route whatever the rooms
+/// free roam's UDP port (crates/server/roam): its frames route whatever the rooms
 pub const ROAM_PORT: u16 = 47210;
 /// a room's city / mode text, and its password, in characters
 pub const TAG_MAX: usize = 24;
@@ -450,7 +450,7 @@ impl Inner {
     }
 }
 
-/// What the switch hands the free-roam hub (web/server/crates/roam), which stands at [`HUB`]: the datagrams sent to
+/// What the switch hands the free-roam hub (crates/server/roam), which stands at [`HUB`]: the datagrams sent to
 /// it, and who left.
 #[derive(Clone, Debug)]
 pub enum ToHub {

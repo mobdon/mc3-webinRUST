@@ -23,7 +23,7 @@ scripts must keep LF line endings.
   installed: an unchanged lifted chunk is not recompiled).
 - **[Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html)**:
   `source <emsdk>/emsdk_env.sh`, or `EMSDK=<dir>` (default `/opt/emsdk`).
-- **Rust 1.85+** for the server (`web/server`), **Node.js 20+** for the
+- **Rust 1.85+** for the server (`crates/server`), **Node.js 20+** for the
   Cloudflare Worker tests (`web/lan-worker`, `web/races-worker`).
 - **Google Chrome** to play.
 
@@ -41,14 +41,14 @@ Or serve with the Rust server, which also carries online play (System
 Link, race rooms, free roam):
 
 ```sh
-cd web/server && cargo build --release
-target/release/mc3-server --web .. --build ../../work-remix/build-web \
-    --disc ../../game-remix-usa --port 3000
+cargo build --release -p mc3-server                # from the repo root (Cargo workspace)
+target/release/mc3-server --web web --build work-remix/build-web \
+    --disc game-remix-usa --port 3000
 ```
 
 Open http://localhost:3000/ in Chrome and press **Play**. Player's guide:
 [docs/web/PLAYING.md](docs/web/PLAYING.md); server options:
-[web/server/README.md](web/server/README.md).
+[crates/server/mc3-server/README.md](crates/server/mc3-server/README.md).
 
 `make` with no target lists every target, grouped. Every target takes
 `GAME=remix` (the browser port's game) or `GAME=dub` (the default; the DUB
@@ -311,7 +311,7 @@ Everything here runs without the game:
 
 ```sh
 make toolkit-test                                   # lifter, disassembler (pytest; CI runs these)
-(cd web/server && cargo test --workspace)           # server crates: ws, lan switch, roam hub
+cargo test --workspace                              # Rust workspace: shared proto, server (ws, lan switch, roam hub)
 (cd web/lan-worker && node --test test/*.test.mjs)  # /lan switch on a Worker
 (cd web/races-worker && node --test test/*.test.mjs)
 tools/wgsl_check.sh                                 # WGSL of the WebGPU back end (needs naga)

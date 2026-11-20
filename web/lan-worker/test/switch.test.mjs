@@ -1,4 +1,4 @@
-// The Switch Durable Object driven with fake hibernatable WebSockets: the tests of web/server/crates/lan/src/lib.rs
+// The Switch Durable Object driven with fake hibernatable WebSockets: the tests of crates/server/lan/src/lib.rs
 // (routing, resume, ping, rate limit, hub, rooms) ported. No Cloudflare runtime needed. node --test test/
 import test from 'node:test';
 import assert from 'node:assert/strict';

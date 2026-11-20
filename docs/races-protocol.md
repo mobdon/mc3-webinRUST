@@ -8,7 +8,7 @@ players of that room.
 
 This file is the contract for three implementations, which speak the same messages:
 
-1. **Step 1 (now):** the relay server's `/lan` switch (`web/server/crates/lan`) keeps
+1. **Step 1 (now):** the relay server's `/lan` switch (`crates/server/lan`) keeps
    the rooms and routes the game's datagrams only inside a room.
 2. **Step 2:** WebRTC data channels between the members of a room (peer to peer),
    the switch as fallback relay. It uses the `signal` messages below.
@@ -105,7 +105,7 @@ over 16 KiB of JSON).
   `left` with `why: "closed"` and is in no room. No host migration: System Link's
   host is the game that hosts, and it is gone too.
 - **Expiry.** A client not heard from for 120 s is gone (step 1: the WebSocket's
-  idle timeout, web/server/src/http.rs `IDLE`; any message counts, `beat` keeps an
+  idle timeout, crates/server/mc3-server/src/http.rs `IDLE`; any message counts, `beat` keeps an
   idle page alive). A transport without a persistent connection expires members
   the same way, from their last message.
 - **Passwords.** Sent once, in `create`/`join`, over the page's own transport (wss
@@ -199,7 +199,7 @@ nowhere else (error `room`).
   only frames to port 47210 and writes the channel's peer as the source and itself as
   the destination. The page setting 'Direct connections (P2P) in Free Roam' (default
   on, `MC3_ROAM_P2P=0` off; it shares the player's IP address with nearby players)
-  closes them live. A switch without free-roam signalling (web/server) answers error
+  closes them live. A switch without free-roam signalling (crates/server) answers error
   `room`: the page stops trying for the session. Log lines `[rtc] free roam <vip>:
   direct (P2P)` / `P2P through a TURN relay` / `no direct path (...)` / `channel
   closed (...)`, and once a minute a count of frames P2P and via the server;

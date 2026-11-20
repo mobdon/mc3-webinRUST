@@ -15,7 +15,7 @@ own disc.
 - **WebGPU renderer** by default, about 30 fps in cruise; WebGL 2 where WebGPU is missing.
 - **Optional 60 fps** races and cruise (Settings, "60 fps races and cruise"; needs WebGPU to hold it).
 - **System Link over a virtual LAN:** everyone on the same server meets as if on one local network. The bundled Rust
-  server (`web/server`) carries it.
+  server (`crates/server`) carries it.
 - **Saves in the browser** (OPFS), with import of Xbox profiles.
 - **Keyboard and gamepads** (Gamepad API, up to four).
 - **Settings page** for the renderer, resolution, filtering, language and more.
@@ -57,13 +57,13 @@ make web-serve GAME=remix        # http://localhost:3000/ (PORT=, BIND= change t
 Or with the Rust server, which also carries System Link:
 
 ```sh
-cd web/server && cargo build --release
-target/release/mc3-server --web .. --build ../../work-remix/build-web \
-    --disc ../../game-remix --port 3000
+cargo build --release -p mc3-server                # from the repo root (Cargo workspace)
+target/release/mc3-server --web web --build work-remix/build-web \
+    --disc game-remix --port 3000
 ```
 
 `--web`, `--build` and `--disc` repeat; `--bind 0.0.0.0` serves other PCs (localhost by default). See
-[web/server/README.md](web/server/README.md).
+[crates/server/mc3-server/README.md](crates/server/mc3-server/README.md).
 
 Open **http://localhost:3000/** in Chrome and press **Play**. The player's guide is
 [docs/web/PLAYING.md](docs/web/PLAYING.md).
@@ -92,7 +92,7 @@ Windows and Nintendo Switch hosts of mcdub3-nx are not maintained here.
 - **`tools/`:** a Python lifter turns every function of `default.xbe` into C.
 - **`xboxrecomp/`:** the toolkit: Xbox kernel, Direct3D on OpenGL and WebGPU, audio, XNet.
 - **`src/`:** this game's glue: boot, file system, overrides.
-- **`web/`:** the start page and its scripts; **`web/server/`:** the Rust server.
+- **`web/`:** the start page and its scripts; **`crates/server/`:** the Rust server.
 - Decisions: [docs/decisions/](docs/decisions/). Developer notes: [CONTRIBUTING.md](CONTRIBUTING.md), [CLAUDE.md](CLAUDE.md).
 
 ## Credits

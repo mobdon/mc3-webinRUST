@@ -1,4 +1,4 @@
-// The page's link to the server's System Link switch (web/server, ws://<host>/lan; after nfsu2-web's, MIT, th0mk):
+// The page's link to the server's System Link switch (crates/server, ws://<host>/lan; after nfsu2-web's, MIT, th0mk):
 // one WebSocket, the switch's control messages, and the game's datagram frames, which web/net.js moves to and from
 // the game's mailbox (xboxrecomp/src/net/xnet_web.c).  Loaded by the start page; the game finds the link as
 // Module.mc3Lan.
@@ -12,7 +12,7 @@
 //                                    // ({"t":"where","w"}, only on change, at most every 5 s, again after a reconnect's hello)
 //   l.players                        // who is online, pushed by the switch when it changes (web/lan-worker/src/switch.js
 //                                    // {"t":"players"}: online, freeRoam, races, modes, list [{name, mode, city?, race?}], more);
-//                                    // null while offline or from a switch without it (web/server): the page polls /lan/stats then
+//                                    // null while offline or from a switch without it (crates/server): the page polls /lan/stats then
 // Races (rooms, docs/races-protocol.md): the list is asked for on connecting and kept current.
 //   l.rooms [{id, name, host, hostVip, city, mode, n, max, locked}], l.roomsSeen (the list has come),
 //   l.room (the race we are in, or null), l.members [{vip, vipStr, name, host}], l.left {room, why} (last left),
@@ -55,7 +55,7 @@ window.mc3Lan = function (name, lanUrl) {
   var HUB = 0x0A4D00FD, ROAM_PORT = 47210, CITIES = 14, TICKET_WAIT = 10000, cityOn = false, bundleSw = false, city = null;   // city: {n, ws, asked, askedAt, open, openAt, fails, retryAt, bundle}
   var fns = [], msgFns = [], ws = null, beat = 0, want = true, tries = 0, retry = 0, heard = 0, pongs = false, beats = false, sub = 1, wantPlayers = true, playersSub = false, rejoin = null, pass = '', auto = false;
   // The keep-alive: the Cloudflare switch's runtime answers this exact text itself (setWebSocketAutoResponse,
-  // web/races-worker/src/index.js BEAT), so an idle page never wakes its Durable Object. web/server ignores it: until
+  // web/races-worker/src/index.js BEAT), so an idle page never wakes its Durable Object. crates/server ignores it: until
   // a beat comes back, the page sends {"t":"ping"} instead (answered with a pong by every switch).
   var BEAT = '{"t":"beat"}';
   function changed() { fns.forEach(function (f) { try { f(link); } catch (e) { console.error(e); } }); }
